@@ -1,0 +1,25 @@
+{
+  "name": "atividade-3_concluindo_backend",
+  "version": "1.0.0",
+  "description": "Concluindo Backend para atividade 3",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pattyhira/Atividade-3_Concluindo_Backend.git"
+  },
+  "author": "Patricia Aline Hiraiwa Takata",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pattyhira/Atividade-3_Concluindo_Backend/issues"
+  },
+  "homepage": "https://github.com/pattyhira/Atividade-3_Concluindo_Backend#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mysql2": "^3.14.5"
+  }
+}

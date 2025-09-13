@@ -1,0 +1,85 @@
+import Curso from "../Models/curso.js";
+
+import conectar from "./conexao.js";
+
+export default class CursoDAO {
+
+    async gravar(curso){
+        if (curso instanceof Curso){
+            const conexao = await conectar();
+            const sql = "INSERT INTO cursos(id, nomeCurso, inicioCurso, duracao, preco, vagas, nivel) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            const parametros = [
+                curso.id,
+                curso.nomeCurso,
+                curso.inicioCurso,
+                curso.duracao,
+                curso.preco,
+                curso.vagas,
+                curso.nivel
+            ];
+
+            await conexao.execute(sql, parametros);    
+            conexao.release();
+        }
+    }
+
+    async alterar(curso){
+        if (curso instanceof Curso){
+            const conexao = await conectar();
+            const sql = "UPDATE cursos SET nomeCurso = ?, inicioCurso = ?, duracao = ?, preco = ?, vagas = ?, nivel = ? WHERE id = ?";
+            const parametros = [
+                curso.nomeCurso,
+                curso.inicioCurso,
+                curso.duracao,
+                curso.preco,
+                curso.vagas,
+                curso.nivel,
+                curso.id,
+            ];
+            await conexao.execute(sql, parametros);
+            await conexao.release();
+        }
+    }
+
+    async excluir(curso){
+        if (curso instanceof Curso){
+            const conexao = await conectar();
+            const sql = "DELETE FROM cursos WHERE id = ?";
+            const parametros = [curso.id];
+
+            await conexao.execute(sql, parametros);
+            await conexao.release();
+        }
+    }
+
+    async consultar(){
+        const conexao = await conectar();
+        const sql = "SELECT id, nomeCurso, inicioCurso, duracao, preco, vagas, nivel FROM cursos";
+        const [registros] = await conexao.query(sql);
+        await conexao.release();
+        let listaCursos = [];
+        
+        for (const r of registros){
+             const curso = new Curso(r.id, r.nomeCurso, r.inicioCurso, r.duracao, r.preco, r.vagas, r.nivel);
+
+            listaCursos.push(curso);
+        }
+        return listaCursos;    
+    }
+
+    async consultarID(id){
+        id = id || " ";
+        const conexao = await conectar();
+        const sql = "SELECT id, nomeCurso, inicioCurso, duracao, preco, vagas, nivel FROM cursos WHERE id = ?";
+        const [registros] = await conexao.query(sql, [id]);
+        await conexao.release();
+        let listaCursos = [];
+        
+        for (const r of registros){
+             const curso = new Curso(r.id, r.nomeCurso, r.inicioCurso, r.duracao, r.preco, r.vagas, r.nivel);
+
+            listaCursos.push(curso);
+        }
+        return listaCursos;    
+    }
+}
